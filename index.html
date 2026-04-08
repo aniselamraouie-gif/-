@@ -31,13 +31,23 @@
         
         .visible { visibility: visible !important; }
         .badge { font-size: 0.8rem; display: block; color: var(--accent); margin-bottom: 5px; }
+
+        /* ستايل قسم الإضافة الجديد */
+        .add-section { 
+            background: var(--card); padding: 20px; border-radius: 20px; margin-top: 30px; 
+            border: 1px dashed #334155; text-align: right;
+        }
+        .add-section input {
+            width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #334155;
+            background: #0f172a; color: white; box-sizing: border-box; text-align: center;
+        }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <h2 style="margin-bottom: 5px;">🧠 ذاكرة البكالوريا الذكية</h2>
-    <p style="color: #94a3b8; margin-bottom: 25px;">النظام يحفظ تقدمك تلقائيًا (حتى بعد الخروج)</p>
+    <p style="color: #94a3b8; margin-bottom: 25px;">التواريخ الرسمية + إضافاتك الشخصية</p>
 
     <div class="stats-bar">
         <div>✅ أتقنت: <b id="good-count">0</b></div>
@@ -58,11 +68,17 @@
         <button id="correct-btn" class="btn-correct" onclick="markAs(true)">حفظته تمامًا ✅</button>
     </div>
 
+    <div class="add-section">
+        <h4 style="margin: 0 0 10px 0; color: var(--accent); text-align: center;">➕ أضف تاريخاً من كراسك</h4>
+        <input type="text" id="new-event" placeholder="اسم الحدث (مثلاً: وفاة هواري بومدين)">
+        <input type="text" id="new-date" placeholder="التاريخ (مثلاً: 27 ديسمبر 1978)">
+        <button onclick="addNewDate()" style="background: var(--accent); color: #020617; width: 100%; padding: 10px; margin-top: 5px;">حفظ في ذاكرتي</button>
+    </div>
+
     <button onclick="resetData()" style="background:none; color:#475569; font-size:0.7rem; margin-top:40px; text-decoration:underline;">إعادة ضبط كل البيانات (حذف الحفظ)</button>
 </div>
 
 <script>
-// القائمة الشاملة لجميع تواريخ الباك (علمي)
 const defaultData = [
     { e: "مبدأ ترومان", d: "12 مارس 1947", u: "حرب باردة", s: 0 },
     { e: "مشروع مارشال", d: "05 جوان 1947", u: "حرب باردة", s: 0 },
@@ -102,11 +118,22 @@ function save() {
 function updateStats() {
     const good = database.filter(i => i.s > 2).length;
     const bad = database.filter(i => i.s < 0).length;
-    const seen = database.filter(i => i.s !== 0).length;
+    const totalCount = database.length;
     
     document.getElementById('good-count').innerText = good;
     document.getElementById('bad-count').innerText = bad;
-    document.getElementById('total-seen').innerText = seen;
+    document.getElementById('total-seen').innerText = totalCount;
+}
+
+function addNewDate() {
+    const evInput = document.getElementById('new-event');
+    const dtInput = document.getElementById('new-date');
+    if(evInput.value && dtInput.value) {
+        database.push({ e: evInput.value, d: dtInput.value, u: "إضافة شخصية", s: 0 });
+        save();
+        evInput.value = ""; dtInput.value = "";
+        alert("تمت إضافة التاريخ بنجاح!");
+    }
 }
 
 function startSpin() {
@@ -118,7 +145,7 @@ function startSpin() {
     let fastSpin = setInterval(() => {
         eventText.innerText = database[Math.floor(Math.random()*database.length)].e;
         timer++;
-        if(timer > 15) {
+        if(timer > 10) {
             clearInterval(fastSpin);
             selectSmartly();
         }
@@ -126,9 +153,7 @@ function startSpin() {
 }
 
 function selectSmartly() {
-    // خوارزمية الذكاء: ترتيب العناصر حسب النقاط الأقل (التي لم تحفظها)
     let sorted = [...database].sort((a, b) => a.s - b.s);
-    // نختار عشوائياً من أسوأ 8 تواريخ لديك لضمان تكرارها
     currentItem = sorted[Math.floor(Math.random() * Math.min(8, sorted.length))];
     
     document.getElementById('event-text').innerText = currentItem.e;
@@ -147,15 +172,14 @@ function reveal() {
 }
 
 function markAs(isCorrect) {
-    // تحديث النقاط في قاعدة البيانات المحلية
     let idx = database.findIndex(i => i.e === currentItem.e);
     if(isCorrect) {
-        database[idx].s += 3; // رفع رتبة التاريخ
+        database[idx].s += 3;
     } else {
-        database[idx].s -= 2; // خفض رتبة التاريخ ليعاد سؤاله
+        database[idx].s -= 2;
     }
     
-    save(); // الحفظ في LocalStorage
+    save();
     
     document.getElementById('correct-btn').style.display = "none";
     document.getElementById('wrong-btn').style.display = "none";
@@ -165,13 +189,12 @@ function markAs(isCorrect) {
 }
 
 function resetData() {
-    if(confirm("هل تريد حقاً مسح كل تقدمك والبدء من الصفر؟")) {
+    if(confirm("هل تريد مسح كل تقدمك؟")) {
         localStorage.removeItem('bac_dates_2026');
         location.reload();
     }
 }
 
-// تحميل الإحصائيات عند فتح الصفحة
 window.onload = updateStats;
 </script>
 </body>

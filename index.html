@@ -2,164 +2,164 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>منصة باك 2026 - ذاكرة لا تموت</title>
+    <title>بنك تواريخ الباك 2026 - الإصدار الشامل</title>
     <style>
         :root { --bg: #020617; --card: #1e293b; --accent: #38bdf8; --correct: #10b981; --wrong: #ef4444; }
-        body { background: var(--bg); color: white; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; padding: 20px; }
-        .app-container { width: 100%; max-width: 600px; text-align: center; }
-        
-        .stats-bar { 
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
-            background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #334155; 
-        }
-
-        .screen { 
-            background: #0f172a; border: 2px solid var(--accent); padding: 50px 20px; 
-            border-radius: 25px; min-height: 250px; margin-bottom: 20px; position: relative;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
-        }
-
-        #event-text { font-size: 1.7rem; font-weight: bold; min-height: 70px; display: flex; align-items: center; justify-content: center; }
-        #date-text { font-size: 2.3rem; color: var(--accent); margin-top: 20px; visibility: hidden; transition: 0.3s; }
-        
+        body { background: var(--bg); color: white; font-family: 'Cairo', sans-serif; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .app-container { width: 100%; max-width: 650px; text-align: center; }
+        .stats-bar { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #334155; }
+        .screen { background: #0f172a; border: 2px solid var(--accent); padding: 40px 20px; border-radius: 25px; min-height: 280px; margin-bottom: 20px; position: relative; box-shadow: 0 0 25px rgba(56, 189, 248, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #event-text { font-size: 1.5rem; font-weight: bold; line-height: 1.6; color: #f8fafc; }
+        #date-text { font-size: 2.2rem; color: var(--accent); margin-top: 20px; visibility: hidden; transition: 0.3s; font-family: 'Courier New', monospace; }
         .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         button { padding: 18px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1rem; }
-        
         .btn-main { background: var(--accent); color: #020617; grid-column: span 2; }
         .btn-correct { background: var(--correct); color: white; display: none; }
         .btn-wrong { background: var(--wrong); color: white; display: none; }
-        
         .visible { visibility: visible !important; }
-        .badge { font-size: 0.8rem; display: block; color: var(--accent); margin-bottom: 5px; }
-
-        /* ستايل قسم الإضافة الجديد */
-        .add-section { 
-            background: var(--card); padding: 20px; border-radius: 20px; margin-top: 30px; 
-            border: 1px dashed #334155; text-align: right;
-        }
-        .add-section input {
-            width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #334155;
-            background: #0f172a; color: white; box-sizing: border-box; text-align: center;
-        }
+        .badge { font-size: 0.8rem; background: rgba(56, 189, 248, 0.2); color: var(--accent); padding: 4px 12px; border-radius: 10px; margin-bottom: 15px; }
+        .add-section { background: var(--card); padding: 20px; border-radius: 20px; margin-top: 30px; border: 1px dashed #334155; text-align: right; }
+        .add-section input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h2 style="margin-bottom: 5px;">🧠 ذاكرة البكالوريا الذكية</h2>
-    <p style="color: #94a3b8; margin-bottom: 25px;">التواريخ الرسمية + إضافاتك الشخصية</p>
+    <h2 style="margin-bottom: 5px;">🎯 بنك التواريخ الشامل (باك 2026)</h2>
+    <p style="color: #94a3b8; margin-bottom: 25px;">تم دمج جميع التواريخ من ملفاتك الشخصية</p>
 
     <div class="stats-bar">
         <div>✅ أتقنت: <b id="good-count">0</b></div>
         <div>❌ مراجعة: <b id="bad-count">0</b></div>
-        <div>📊 كلي: <b id="total-seen">0</b></div>
+        <div>📊 الإجمالي: <b id="total-count">0</b></div>
     </div>
 
     <div class="screen">
-        <span id="unit-tag" class="badge">الوحدة: --</span>
-        <div id="event-text">جاهز للانطلاق؟</div>
+        <span id="unit-tag" class="badge">جاهز؟</span>
+        <div id="event-text">اضغط على الزر للسحب</div>
         <div id="date-text">-- / -- / ----</div>
     </div>
 
     <div class="btn-grid">
-        <button id="spin-btn" class="btn-main" onclick="startSpin()">تدوير واختيار ذكي 🎲</button>
+        <button id="spin-btn" class="btn-main" onclick="startSpin()">سحب تاريخ عشوائي 🎲</button>
         <button id="reveal-btn" class="btn-main" style="display:none;" onclick="reveal()">كشف التاريخ 🔓</button>
         <button id="wrong-btn" class="btn-wrong" onclick="markAs(false)">أحتاج مراجعة ❌</button>
         <button id="correct-btn" class="btn-correct" onclick="markAs(true)">حفظته تمامًا ✅</button>
     </div>
 
     <div class="add-section">
-        <h4 style="margin: 0 0 10px 0; color: var(--accent); text-align: center;">➕ أضف تاريخاً من كراسك</h4>
-        <input type="text" id="new-event" placeholder="اسم الحدث (مثلاً: وفاة هواري بومدين)">
-        <input type="text" id="new-date" placeholder="التاريخ (مثلاً: 27 ديسمبر 1978)">
-        <button onclick="addNewDate()" style="background: var(--accent); color: #020617; width: 100%; padding: 10px; margin-top: 5px;">حفظ في ذاكرتي</button>
+        <h4 style="margin: 0 0 10px 0; color: var(--accent); text-align: center;">➕ إضافة تاريخ جديد</h4>
+        <input type="text" id="new-event" placeholder="اسم الحدث..">
+        <input type="text" id="new-date" placeholder="التاريخ..">
+        <button onclick="addNewDate()" style="background: var(--accent); color: #020617; width: 100%; padding: 10px; border-radius: 8px;">حفظ في القائمة</button>
     </div>
 
-    <button onclick="resetData()" style="background:none; color:#475569; font-size:0.7rem; margin-top:40px; text-decoration:underline;">إعادة ضبط كل البيانات (حذف الحفظ)</button>
+    <button onclick="resetData()" style="background:none; color:#475569; font-size:0.7rem; margin-top:40px; text-decoration:underline; border:none; cursor:pointer;">إعادة ضبط المصنع (حذف كل شيء)</button>
 </div>
 
 <script>
-const defaultData = [
+const fullData = [
+    // --- الوحدة الأولى: الحرب الباردة ---
+    { e: "ميثاق الأطلسي", d: "14 أوت 1941", u: "حرب باردة", s: 0 },
+    { e: "تأسيس جامعة الدول العربية", d: "22 مارس 1945", u: "حرب باردة", s: 0 },
+    { e: "قنبلة هيروشيما (6 أوت) وناغازاكي (9 أوت)", d: "أوت 1945", u: "حرب باردة", s: 0 },
+    { e: "تأسيس هيئة الأمم المتحدة", d: "24 أكتوبر 1945", u: "حرب باردة", s: 0 },
+    { e: "مؤتمر بوتسدام", d: "02 أوت 1945", u: "حرب باردة", s: 0 },
     { e: "مبدأ ترومان", d: "12 مارس 1947", u: "حرب باردة", s: 0 },
     { e: "مشروع مارشال", d: "05 جوان 1947", u: "حرب باردة", s: 0 },
     { e: "مبدأ جيدانوف", d: "22 سبتمبر 1947", u: "حرب باردة", s: 0 },
-    { e: "تأسيس الكومنفورم", d: "06 أكتوبر 1947", u: "حرب باردة", s: 0 },
+    { e: "تأسيس مكتب الكومنفورم", d: "06 أكتوبر 1947", u: "حرب باردة", s: 0 },
     { e: "منظمة الكوميكون", d: "25 جانفي 1949", u: "حرب باردة", s: 0 },
-    { e: "حلف الناتو", d: "04 أفريل 1949", u: "حرب باردة", s: 0 },
+    { e: "حلف الناتو (الشمال الأطلسي)", d: "04 أفريل 1949", u: "حرب باردة", s: 0 },
     { e: "وفاة ستالين", d: "05 مارس 1953", u: "حرب باردة", s: 0 },
-    { e: "اندلاع الثورة التحريرية", d: "01 نوفمبر 1954", u: "ثورة جزائرية", s: 0 },
-    { e: "حلف بغداد", d: "24 فيفري 1955", u: "حرب باردة", s: 0 },
-    { e: "حلف وارسو", d: "14 ماي 1955", u: "حرب باردة", s: 0 },
-    { e: "هجومات الشمال القسنطيني", d: "20 أوت 1955", u: "ثورة جزائرية", s: 0 },
-    { e: "مؤتمر الصومام", d: "20 أوت 1956", u: "ثورة جزائرية", s: 0 },
-    { e: "تأميم قناة السويس", d: "26 جويلية 1956", u: "حركات تحرر", s: 0 },
+    { e: "تأسيس حلف جنوب شرق آسيا", d: "08 سبتمبر 1954", u: "حرب باردة", s: 0 },
+    { e: "تأسيس حلف بغداد", d: "24 فيفري 1955", u: "حرب باردة", s: 0 },
+    { e: "تأسيس حلف وارسو", d: "14 ماي 1955", u: "حرب باردة", s: 0 },
+    { e: "مؤتمر باندونغ", d: "18-24 أفريل 1955", u: "حرب باردة", s: 0 },
+    { e: "تأميم قناة السويس / العدوان الثلاثي", d: "1956", u: "حرب باردة", s: 0 },
     { e: "مشروع إيزنهاور", d: "05 جانفي 1957", u: "حرب باردة", s: 0 },
-    { e: "قصف ساقية سيدي يوسف", d: "08 فيفري 1958", u: "ثورة جزائرية", s: 0 },
-    { e: "الحكومة المؤقتة", d: "19 سبتمبر 1958", u: "ثورة جزائرية", s: 0 },
-    { e: "مظاهرات 11 ديسمبر", d: "11 ديسمبر 1960", u: "ثورة جزائرية", s: 0 },
     { e: "بناء جدار برلين", d: "13 أوت 1961", u: "حرب باردة", s: 0 },
-    { e: "مظاهرات 17 أكتوبر", d: "17 أكتوبر 1961", u: "ثورة جزائرية", s: 0 },
-    { e: "وقف إطلاق النار", d: "19 مارس 1962", u: "ثورة جزائرية", s: 0 },
-    { e: "استقلال الجزائر", d: "05 جويلية 1962", u: "ثورة جزائرية", s: 0 },
+    { e: "تأسيس حركة عدم الانحياز (مؤتمر بلغراد)", d: "01-06 سبتمبر 1961", u: "حرب باردة", s: 0 },
+    { e: "إنشاء الخط الهاتفي الأحمر", d: "20 جوان 1963", u: "حرب باردة", s: 0 },
     { e: "سقوط جدار برلين", d: "09 نوفمبر 1989", u: "نظام دولي جديد", s: 0 },
     { e: "مؤتمر مالطا", d: "03-04 ديسمبر 1989", u: "نظام دولي جديد", s: 0 },
+    { e: "توحيد الألمانيتين", d: "03 أكتوبر 1990", u: "نظام دولي جديد", s: 0 },
+    { e: "حل منظمة الكوميكون", d: "28 جوان 1991", u: "نظام دولي جديد", s: 0 },
     { e: "حل حلف وارسو", d: "01 جويلية 1991", u: "نظام دولي جديد", s: 0 },
-    { e: "قمة ألما آتا (نهاية السوفيات)", d: "21 ديسمبر 1991", u: "نظام دولي جديد", s: 0 }
+    { e: "مؤتمر ألما آتا (نهاية الاتحاد السوفياتي)", d: "21 ديسمبر 1991", u: "نظام دولي جديد", s: 0 },
+
+    // --- الوحدة الثانية: الثورة الجزائرية ---
+    { e: "مجازر 08 ماي 1945", d: "08 ماي 1945", u: "ثورة جزائرية", s: 0 },
+    { e: "إنشاء المنظمة الخاصة (OS)", d: "15 فيفري 1947", u: "ثورة جزائرية", s: 0 },
+    { e: "صدور القانون الخاص (دستور الجزائر)", d: "20 سبتمبر 1947", u: "ثورة جزائرية", s: 0 },
+    { e: "اكتشاف فرنسا للمنظمة الخاصة", d: "08 مارس 1950", u: "ثورة جزائرية", s: 0 },
+    { e: "أزمة حركة انتصار الحريات الديمقراطية", d: "أفريل 1954", u: "ثورة جزائرية", s: 0 },
+    { e: "تأسيس اللجنة الثورية للوحدة والعمل", d: "23 مارس 1954", u: "ثورة جزائرية", s: 0 },
+    { e: "اجتماع مجموعة 22", d: "23 جوان 1954", u: "ثورة جزائرية", s: 0 },
+    { e: "اندلاع الثورة التحريرية", d: "01 نوفمبر 1954", u: "ثورة جزائرية", s: 0 },
+    { e: "هجومات الشمال القسنطيني", d: "20 أوت 1955", u: "ثورة جزائرية", s: 0 },
+    { e: "إضراب الطلبة الجزائريين", d: "19 ماي 1956", u: "ثورة جزائرية", s: 0 },
+    { e: "مؤتمر الصومام", d: "20 أوت 1956", u: "ثورة جزائرية", s: 0 },
+    { e: "اختطاف طائرة القادة الخمسة (القرصنة الجوية)", d: "22 أكتوبر 1956", u: "ثورة جزائرية", s: 0 },
+    { e: "إضراب الثمانية أيام", d: "28 جانفي - 04 فيفري 1957", u: "ثورة جزائرية", s: 0 },
+    { e: "قصف ساقية سيدي يوسف", d: "08 فيفري 1958", u: "ثورة جزائرية", s: 0 },
+    { e: "تمرد وانقلاب المستوطنين (وصول ديغول)", d: "13 ماي 1958", u: "ثورة جزائرية", s: 0 },
+    { e: "تأسيس الحكومة المؤقتة للجمهورية الجزائرية", d: "19 سبتمبر 1958", u: "ثورة جزائرية", s: 0 },
+    { e: "مشروع قسنطينة (الإغراء المادي)", d: "03-04 أكتوبر 1958", u: "ثورة جزائرية", s: 0 },
+    { e: "سلم الشجعان", d: "23 أكتوبر 1958", u: "ثورة جزائرية", s: 0 },
+    { e: "مظاهرات 11 ديسمبر بالجزائر", d: "11 ديسمبر 1960", u: "ثورة جزائرية", s: 0 },
+    { e: "مظاهرات الجزائريين بفرنسا", d: "17 أكتوبر 1961", u: "ثورة جزائرية", s: 0 },
+    { e: "مفاوضات إيفيان الثانية", d: "07-18 مارس 1962", u: "ثورة جزائرية", s: 0 },
+    { e: "وقف إطلاق النار (عيد النصر)", d: "19 مارس 1962", u: "ثورة جزائرية", s: 0 },
+    { e: "استفتاء تقرير المصير", d: "01 جويلية 1962", u: "ثورة جزائرية", s: 0 },
+    { e: "الإعلان الرسمي عن الاستقلال", d: "05 جويلية 1962", u: "ثورة جزائرية", s: 0 },
+    { e: "انضمام الجزائر لهيئة الأمم المتحدة", d: "08-13 أكتوبر 1962", u: "جزائر الاستقلال", s: 0 },
+    { e: "حركة التصحيح الثوري (وصول بومدين)", d: "19 جوان 1965", u: "جزائر الاستقلال", s: 0 },
+    { e: "المؤتمر الرابع لحركة عدم الانحياز بالجزائر", d: "05-09 سبتمبر 1973", u: "جزائر الاستقلال", s: 0 },
+    { e: "وفاة هواري بومدين", d: "27 ديسمبر 1978", u: "جزائر الاستقلال", s: 0 },
+    { e: "انتخاب الشاذلي بن جديد رئيساً", d: "07 فيفري 1979", u: "جزائر الاستقلال", s: 0 },
+    { e: "صدور منشور التعددية الحزبية", d: "23 فيفري 1989", u: "جزائر الاستقلال", s: 0 }
 ];
 
-let database = JSON.parse(localStorage.getItem('bac_dates_2026')) || defaultData;
+let database = JSON.parse(localStorage.getItem('mega_bac_dates')) || fullData;
 let currentItem = null;
 
-function save() {
-    localStorage.setItem('bac_dates_2026', JSON.stringify(database));
-    updateStats();
-}
+function save() { localStorage.setItem('mega_bac_dates', JSON.stringify(database)); updateStats(); }
 
 function updateStats() {
-    const good = database.filter(i => i.s > 2).length;
-    const bad = database.filter(i => i.s < 0).length;
-    const totalCount = database.length;
-    
-    document.getElementById('good-count').innerText = good;
-    document.getElementById('bad-count').innerText = bad;
-    document.getElementById('total-seen').innerText = totalCount;
+    document.getElementById('good-count').innerText = database.filter(i => i.s > 2).length;
+    document.getElementById('bad-count').innerText = database.filter(i => i.s < 0).length;
+    document.getElementById('total-count').innerText = database.length;
 }
 
 function addNewDate() {
-    const evInput = document.getElementById('new-event');
-    const dtInput = document.getElementById('new-date');
-    if(evInput.value && dtInput.value) {
-        database.push({ e: evInput.value, d: dtInput.value, u: "إضافة شخصية", s: 0 });
+    const ev = document.getElementById('new-event').value;
+    const dt = document.getElementById('new-date').value;
+    if(ev && dt) {
+        database.push({ e: ev, d: dt, u: "إضافة يدوية", s: 0 });
         save();
-        evInput.value = ""; dtInput.value = "";
-        alert("تمت إضافة التاريخ بنجاح!");
+        document.getElementById('new-event').value = ""; document.getElementById('new-date').value = "";
+        alert("تمت الإضافة بنجاح!");
     }
 }
 
 function startSpin() {
-    const eventText = document.getElementById('event-text');
     document.getElementById('date-text').classList.remove('visible');
     document.getElementById('reveal-btn').style.display = "none";
-    
-    let timer = 0;
-    let fastSpin = setInterval(() => {
-        eventText.innerText = database[Math.floor(Math.random()*database.length)].e;
-        timer++;
-        if(timer > 10) {
-            clearInterval(fastSpin);
-            selectSmartly();
-        }
+    let count = 0;
+    let spin = setInterval(() => {
+        document.getElementById('event-text').innerText = database[Math.floor(Math.random()*database.length)].e;
+        count++;
+        if(count > 12) { clearInterval(spin); selectSmartly(); }
     }, 60);
 }
 
 function selectSmartly() {
     let sorted = [...database].sort((a, b) => a.s - b.s);
-    currentItem = sorted[Math.floor(Math.random() * Math.min(8, sorted.length))];
-    
+    currentItem = sorted[Math.floor(Math.random() * Math.min(10, sorted.length))];
     document.getElementById('event-text').innerText = currentItem.e;
     document.getElementById('date-text').innerText = currentItem.d;
-    document.getElementById('unit-tag').innerText = "الوحدة: " + currentItem.u;
-    
+    document.getElementById('unit-tag').innerText = currentItem.u;
     document.getElementById('spin-btn').style.display = "none";
     document.getElementById('reveal-btn').style.display = "block";
 }
@@ -171,29 +171,18 @@ function reveal() {
     document.getElementById('wrong-btn').style.display = "block";
 }
 
-function markAs(isCorrect) {
+function markAs(correct) {
     let idx = database.findIndex(i => i.e === currentItem.e);
-    if(isCorrect) {
-        database[idx].s += 3;
-    } else {
-        database[idx].s -= 2;
-    }
-    
+    database[idx].s += correct ? 3 : -2;
     save();
-    
     document.getElementById('correct-btn').style.display = "none";
     document.getElementById('wrong-btn').style.display = "none";
     document.getElementById('spin-btn').style.display = "block";
-    document.getElementById('event-text').innerText = "تم التحديث.. جاهز للتالي؟";
+    document.getElementById('event-text').innerText = "تم التحديث.. التالي؟";
     document.getElementById('date-text').classList.remove('visible');
 }
 
-function resetData() {
-    if(confirm("هل تريد مسح كل تقدمك؟")) {
-        localStorage.removeItem('bac_dates_2026');
-        location.reload();
-    }
-}
+function resetData() { if(confirm("حذف كل التقدم؟")) { localStorage.removeItem('mega_bac_dates'); location.reload(); } }
 
 window.onload = updateStats;
 </script>

@@ -28,9 +28,30 @@
         .badge { font-size: 0.8rem; background: rgba(56, 189, 248, 0.2); color: var(--accent); padding: 6px 12px; border-radius: 10px; margin-bottom: 15px; }
         .add-section { background: var(--card); padding: 20px; border-radius: 20px; margin-top: 30px; border: 1px dashed #334155; text-align: right; }
         .add-section input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
+
+        /* شاشة القفل المحمية */
+        .lock-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020617; display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; box-sizing: border-box; }
+        .lock-card { background: var(--card); padding: 30px; border-radius: 25px; border: 2px solid var(--accent); width: 100%; max-width: 450px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .lock-input { width: 100%; padding: 15px; margin: 20px 0; border-radius: 12px; border: 2px solid #334155; background: #0f172a; color: white; font-size: 1.2rem; text-align: center; letter-spacing: 2px; box-sizing: border-box; }
+        .lock-btn { width: 100%; padding: 15px; background: var(--accent); color: #020617; border-radius: 12px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
+        .tg-link { display: inline-block; margin-top: 20px; color: #38bdf8; text-decoration: none; font-size: 0.95rem; font-weight: bold; transition: 0.3s; }
+        .tg-link:hover { text-decoration: underline; color: #0ea5e9; }
     </style>
 </head>
 <body>
+
+<!-- واجهة التحقق من الكود (تظهر فقط إذا لم يتم تفعيل الكود سابقاً) -->
+<div id="lock-screen" class="lock-overlay">
+    <div class="lock-card">
+        <h2 style="margin-top: 0; color: var(--accent);">🔐 المنصة محمية بكود تفعيل</h2>
+        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.5;">يرجى إدخال كود التفعيل الصحيح لتتمكن من استخدام بنك التواريخ الشامل والاستفادة من كافة ميزات المنصة.</p>
+        
+        <input type="password" id="unlock-code" class="lock-input" placeholder="أدخل كود التفعيل هنا...">
+        <button onclick="checkAccessCode()" class="lock-btn">تفعيل الدخول 🚀</button>
+        
+        <a href="https://t.me/nananalldldl24" target="_blank" class="tg-link">👉 تريد الحصول على الكود؟ اضغط هنا مجاناً لتأخذه من قناتنا</a>
+    </div>
+</div>
 
 <div class="app-container">
     <h2 style="margin-bottom: 10px;">📚 بنك التواريخ الشامل (ادعو لصاحب الموقع بنجاح وتحقيق اهدافه)</h2>
@@ -133,11 +154,34 @@ const fullData = [
     { e: "وفاة بومدين", d: "27 ديسمبر 1978", u: "جزائر الاستقلال", s: 0 },
     { e: "انتخاب الشاذلي بن جديد", d: "07 فيفري 1979", u: "جزائر الاستقلال", s: 0 },
     { e: "منشور التعددية الحزبية", d: "23 فيفري 1989", u: "جزائر الاستقلال", s: 0 }
-    // تم تجميع البقية برمجياً لضمان الوصول للعدد الكامل
 ];
 
 let database = JSON.parse(localStorage.getItem('anis_final_database')) || fullData;
 let currentItem = null;
+
+// التحقق من حالة القفل مدى الحياة
+function initSecurity() {
+    const isUnlocked = localStorage.getItem('anis_forever_unlocked');
+    if (isUnlocked === 'true') {
+        document.getElementById('lock-screen').style.display = 'none';
+    }
+}
+
+// دالة التحقق من الكود المدخل وحفظ الحالة مدى الحياة
+function checkAccessCode() {
+    const inputCode = document.getElementById('unlock-code').value.trim();
+    const correctCode = "221223224";
+    
+    if (inputCode === correctCode) {
+        localStorage.setItem('anis_forever_unlocked', 'true'); // الحفظ مدى الحياة في المتصفح
+        document.getElementById('lock-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('lock-screen').style.display = 'none';
+        }, 300);
+    } else {
+        alert("❌ كود التفعيل خاطئ! تأكد من الكود أو احصل عليه مجاناً من الرابط.");
+    }
+}
 
 function save() { localStorage.setItem('anis_final_database', JSON.stringify(database)); updateStats(); }
 
@@ -205,9 +249,19 @@ function addNewDate() {
     }
 }
 
-function resetData() { if(confirm("تصفير كل شيء؟")) { localStorage.removeItem('anis_final_database'); location.reload(); } }
+function resetData() { 
+    if(confirm("تصفير كل شيء؟")) { 
+        localStorage.removeItem('anis_final_database'); 
+        localStorage.removeItem('anis_forever_unlocked'); // إعادة القفل فقط عند التصفير الكامل المعتمد
+        location.reload(); 
+    } 
+}
 
-window.onload = updateStats;
+// تشغيل الفحص والبيانات فور فتح الصفحة
+window.onload = function() {
+    initSecurity();
+    updateStats();
+};
 </script>
 </body>
 </html>

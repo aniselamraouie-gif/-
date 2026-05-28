@@ -48,7 +48,7 @@
         <input type="password" id="unlock-code" class="lock-input" placeholder="أدخل كود التفعيل هنا...">
         <button onclick="checkAccessCode()" class="lock-btn">تفعيل الدخول 🚀</button>
         
-        <a href="https://t.me/nananalldldl24" target="_blank" class="tg-link">👉 تريد الحصول على الكود؟ اضغط هنا مجاناً لتأخذه من قناتنا</a>
+        <a href="https://t.me/baccsshtml" target="_blank" class="tg-link">👉 تريد الحصول على الكود؟ اضغط هنا للتواصل معي مباشرة عبر تليجرام</a>
     </div>
 </div>
 
@@ -88,11 +88,11 @@
 </div>
 
 <script>
-// مصفوفة البيانات الجديدة كلياً المبنية على ملفك المصحح المعتمد في البكالوريا
+// مصفوفة البيانات الرسمية المأخوذة من ملفك بدقة عالية
 const fullData = [
     // --- الحرب الباردة ونظام دولي جديد (مرتبة زمنياً) ---
     { e: "ميثاق الأطلسي (وثيقة بريطانية أمريكية وضعت أسس النظام الدولي بعد الحك الثانية)", d: "14 أوت 1941", u: "حرب باردة", s: 0 },
-    { e: "تأسيس جامعة الدول العربية (منظمة إقليمية أنشئت لتنسيق التعاون السياسي والعمل المشترك)", d: "22 مارس 1945", u: "حرب باردة", s: 0 },
+    { e: "تأسيس جامعة الدول العربية (منزمة إقليمية أنشئت لتنسيق التعاون السياسي والعمل المشترك)", d: "22 مارس 1945", u: "حرب باردة", s: 0 },
     { e: "القصف الذري على اليابان (إلقاء أمريكا قنبلتين نوويتين على هيروشيما وناغازاكي لإنهاء الحك الثانية)", d: "06 - 09 أوت 1945", u: "حرب باردة", s: 0 },
     { e: "تأسيس هيئة الأمم المتحدة (منظمة دولية بديلة لعصبة الأمم بهدف حفظ السلم والأمن الدوليين)", d: "24 أكتوبر 1945", u: "حرب باردة", s: 0 },
     { e: "إعلان مبدأ ترومان (سياسة أمريكية لتقديم الدعم المالي والعسكري للدول المهددة بالزحف الشيوعي)", d: "12 مارس 1947", u: "حرب باردة", s: 0 },
@@ -145,10 +145,19 @@ const fullData = [
     { e: "الإعلان الرسمي عن الاستقلال (استرجاع السيادة الوطنية رسمياً واختير اليوم تيمناً وتاريخاً لذكرى الاحتلال عام 1830)", d: "05 جويلية 1962", u: "ثورة جزائرية", s: 0 }
 ];
 
+// آلية التحديث التلقائي الإجباري لحل مشكلة عدم الضغط على زر إعادة الضبط
+const CURRENT_VERSION = 3; 
+let savedVersion = localStorage.getItem('anis_platform_version');
+
+if (!savedVersion || parseInt(savedVersion) < CURRENT_VERSION) {
+    localStorage.removeItem('anis_final_database');
+    localStorage.removeItem('anis_forever_unlocked'); // إجبارية تغيير الباسوورد فورا
+    localStorage.setItem('anis_platform_version', CURRENT_VERSION);
+}
+
 let database = JSON.parse(localStorage.getItem('anis_final_database')) || fullData;
 let currentItem = null;
 
-// التحقق من حالة الدخول الآمن مدى الحياة
 function initSecurity() {
     const isUnlocked = localStorage.getItem('anis_forever_unlocked');
     if (isUnlocked === 'true') {
@@ -156,10 +165,9 @@ function initSecurity() {
     }
 }
 
-// دالة التحقق من الكود الجديد وتذكر المستخدم مدى الحياة
 function checkAccessCode() {
     const inputCode = document.getElementById('unlock-code').value.trim();
-    const correctCode = "21012209"; // الكود الجديد المحدث
+    const correctCode = "22212209"; // كود القفل الجديد والمحدث
     
     if (inputCode === correctCode) {
         localStorage.setItem('anis_forever_unlocked', 'true');
@@ -168,7 +176,7 @@ function checkAccessCode() {
             document.getElementById('lock-screen').style.display = 'none';
         }, 300);
     } else {
-        alert("❌ كود التفعيل خاطئ! تأكد من الكود أو احصل عليه مجاناً من الرابط بالأسفل.");
+        alert("❌ كود التفعيل خاطئ! تأكد من الكود أو تواصل معي عبر الرابط بالأسفل.");
     }
 }
 
